@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeta Case Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="intro-screen" class="show"> <div id="intro-logo-container"> <img src="https://dn721508.ca.archive.org/0/items/117910977-1207262019606351-4960873323730265590-n/117910977_1207262019606351_4960873323730265590_n.jpg" alt="Keeta Logo" class="intro-logo-spin">
+        </div>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+        <p class="intro-text">Loading Data...</p>
+    </div>
+
+    <div id="persistent-logo-container" class="hidden">
+        <img src="https://dn721508.ca.archive.org/0/items/117910977-1207262019606351-4960873323730265590-n/117910977_1207262019606351_4960873323730265590_n.jpg" alt="Keeta Logo" id="main-logo">
+    </div>
+
+    <div id="particles-js"></div>
+
+    <div class="main-content hidden"> <div class="container">
+            <h1>Keeta Case Solution</h1>
+            <form id="caseSolutionForm">
+                <div class="form-group">
+                    <label for="problemDescription">Problem Description:</label>
+                    <input type="text" id="problemDescription" name="problemDescription" placeholder="Enter problem description" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="riskLabel">Risk Label:</label>
+                    <select id="riskLabel" name="riskLabel" required>
+                        <option value="">Select an option</option>
+                        <option value="0RC">0RC</option>
+                        <option value="1RC">1RC</option>
+                        <option value="2RC">2RC</option>
+                        <option value="3RC">3RC</option>
+                        <option value=">3RC">&gt;3RC</option>
+                        <option value="0RC and Red">0RC and Red</option>
+                        <option value="1RC and Red">1RC and Red</option>
+                        <option value="2RC and Red">2RC and Red</option>
+                        <option value="3RC and Red">3RC and Red</option>
+                        <option value=">3RC and Red">&gt;3RC and Red</option>
+                        <option value="0RC and Purple">0RC and Purple</option>
+                        <option value="1RC and Purple">1RC and Purple</option>
+                        <option value="2RC and Purple">2RC and Purple</option>
+                        <option value="3RC and Purple">3RC and Purple</option>
+                        <option value=">3RC and Purple">&gt;3RC and Purple</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="refund">Refund:</label>
+                    <select id="refund" name="refund" required>
+                        <option value="">Select an option</option>
+                        <option value="No Refund">No Refund</option>
+                        <option value="Full">Full</option>
+                        <option value="Partial">Partial</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="compensation">Compensation:</label>
+                    <select id="compensation" name="compensation" required>
+                        <option value="">Select an option</option>
+                        <option value="No Compensation">No Compensation</option>
+                        <option value="5 SAR">5 SAR</option>
+                        <option value="10 SAR">10 SAR</option>
+                        <option value="15 SAR">15 SAR</option>
+                        <option value="20 SAR">20 SAR</option>
+                        <option value="25 SAR">25 SAR</option>
+                        <option value="30 SAR">30 SAR</option>
+                        <option value="35 SAR">35 SAR</option>
+                        <option value="40 SAR">40 SAR</option>
+                        <option value="45 SAR">45 SAR</option>
+                        <option value="50 SAR">50 SAR</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="userRequest">User Request:</label>
+                    <select id="userRequest" name="userRequest" required>
+                        <option value="">Select an option</option>
+                        <option value="Compensation">Compensation</option>
+                        <option value="Cancel the order">Cancel the order</option>
+                        <option value="Add note for merchant">Add note for merchant</option>
+                        <option value="Change the address">Change the address</option>
+                        <option value="Change food items">Change food items</option>
+                        <option value="Assign another driver on order">Assign another driver on order</option>
+                        <option value="NON SPECIFIC REQUEST">NON SPECIFIC REQUEST</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="responsible">Responsible:</label>
+                    <select id="responsible" name="responsible" required>
+                        <option value="">Select an option</option>
+                        <option value="Platform">Platform</option>
+                        <option value="Inadmissible">Inadmissible</option>
+                        <option value="Merchant">Merchant</option>
+                        <option value="Rider">Rider</option>
+                        <option value="Platform For Courier">Platform For Courier</option>
+                        <option value="Platform For Merchant">Platform For Merchant</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="evidence">Evidence:</label>
+                    <select id="evidence" name="evidence" required>
+                        <option value="">Select an option</option>
+                        <option value="Clear">Clear</option>
+                        <option value="Unclear">Unclear</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="receipt">Receipt:</label>
+                    <select id="receipt" name="receipt" required>
+                        <option value="">Select an option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="foodPhotoMeetsStandard">Food photo meets the standard:</label>
+                    <select id="foodPhotoMeetsStandard" name="foodPhotoMeetsStandard" required>
+                        <option value="">Select an option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="isInternetPhoto">Is Internet photo:</label>
+                    <select id="isInternetPhoto" name="isInternetPhoto" required>
+                        <option value="">Select an option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="callMerchantRider">Call Merchant/Rider:</label>
+                    <select id="callMerchantRider" name="callMerchantRider" required>
+                        <option value="">Select an option</option>
+                        <option value="No Call">No Call</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="whoDidYouCall">Who did you call:</label>
+                    <select id="whoDidYouCall" name="whoDidYouCall" required>
+                        <option value="">Select an option</option>
+                        <option value="No Call">No Call</option>
+                        <option value="Merchant">Merchant</option>
+                        <option value="Rider">Rider</option>
+                        <option value="Merchant and Rider">Merchant and Rider</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="howManyTimesYouCall">How many times you call:</label>
+                    <select id="howManyTimesYouCall" name="howManyTimesYouCall" required>
+                        <option value="">Select an option</option>
+                        <option value="No Call">No Call</option>
+                        <option value="1 time">1 time</option>
+                        <option value="2 times">2 times</option>
+                        <option value="3 times">3 times</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="highRiskIssue">High Risk issue:</label>
+                    <select id="highRiskIssue" name="highRiskIssue" required>
+                        <option value="">Select an option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" id="showResultBtn">Show Result</button>
+                    <button type="button" id="createNewTicketBtn">Create New Ticket</button>
+                </div>
+            </form>
+
+            <div id="resultOutput" class="result-box">
+                <div class="result-header">
+                    <h2>Result:</h2>
+                    <button type="button" id="copyResultBtn">Copy Result</button>
+                </div>
+                <div id="resultContent">
+                    <p>الرجاء تعبئة النموذج والنقر على "إظهار النتيجة" لرؤية التفاصيل.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="timerDisplay">00:00</div>
+
+        <div id="copyToast">تم نسخ النتيجة إلى الحافظة!</div>
+
+        <div id="alertToast">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2L1 21h22L12 2zm1 16h-2v-2h2v2zm0-4h-2V8h2v6z"/>
+            </svg>
+            <span>انتهى الوقت!</span>
+        </div>
+
+        <div id="warningModal" class="modal-overlay modal-warning">
+            <div class="modal-content">
+                <p>الرجاء تعبئة جميع الحقول المطلوبة.</p>
+                <button id="closeWarningModalBtn">موافق</button>
+            </div>
+        </div>
+    </div> <div id="welcomeModal" class="modal-overlay modal-welcome">
+        <div class="modal-content">
+            <p>How long do you need to hold? (in minutes)</p>
+            <input type="number" id="holdTimeInput" min="1" value="3" placeholder="Enter minutes">
+            <button id="startTimerBtn" disabled>Start</button>
+        </div>
+    </div>
+
+    <footer class="footer hidden"> <p>&copy; 2025 LaithDeveloper. All rights reserved.</p>
+        <div class="social-links">
+            <a href="https://www.instagram.com/laithdeveloper/" target="_blank" class="instagram-link">
+                <i class="fab fa-instagram instagram-icon"></i>
+                <span>Instagram</span>
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
