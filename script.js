@@ -231,7 +231,7 @@
 
                 if (!allFieldsFilled) {
                     resultContent.innerHTML = '<p>الرجاء تعبئة النموذج والنقر على "إظهار النتيجة" لرؤية التفاصيل.</p>';
-                    userRequestContent.innerHTML = '<p>سيظهر طلب المستخدم هنا.</p>'; 
+                    userRequestContent.innerHTML = '<p>سيظهر طلب العميل هنا.</p>'; 
                     return;
                 }
 
