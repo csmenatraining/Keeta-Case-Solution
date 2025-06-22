@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeta Case Solution</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <link rel="stylesheet" href="style.css">
-</head>
+    </head>
 <body>
-    <div id="intro-screen" class="show"> <div id="intro-logo-container"> <img src="https://dn721508.ca.archive.org/0/items/117910977-1207262019606351-4960873323730265590-n/117910977_1207262019606351_4960873323730265590_n.jpg" alt="Keeta Logo" class="intro-logo-spin">
+    <div id="intro-screen" class="show">
+        <div id="intro-logo-container">
+            <img src="https://dn721508.ca.archive.org/0/items/117910977-1207262019606351-4960873323730265590-n/117910977_1207262019606351_4960873323730265590_n.jpg" alt="Keeta Logo" class="intro-logo-spin">
         </div>
         <div class="loading-bar-container">
             <div class="loading-bar"></div>
@@ -23,7 +26,14 @@
 
     <div id="particles-js"></div>
 
-    <div class="main-content hidden"> <div class="container">
+    <div class="main-content hidden">
+        <div class="container">
+            <div class="timer-action-container" style="text-align: center; margin-bottom: 30px;">
+                <button type="button" id="openTimerModalBtn" class="action-button">
+                    <i class="fas fa-stopwatch"></i> Start Hold Timer
+                </button>
+            </div>
+
             <h1>Keeta Case Solution</h1>
             <form id="caseSolutionForm">
                 <div class="form-group">
@@ -120,7 +130,7 @@
                 <div class="form-group">
                     <label for="receipt">Receipt:</label>
                     <select id="receipt" name="receipt" required>
-                        <option value="">Select an option</option>
+                        <option value="">Select an option</                        option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
@@ -191,13 +201,25 @@
                 </div>
             </form>
 
-            <div id="resultOutput" class="result-box">
-                <div class="result-header">
-                    <h2>Result:</h2>
-                    <button type="button" id="copyResultBtn">Copy Result</button>
+            <div class="results-container">
+                <div id="resultOutput" class="result-box">
+                    <div class="result-header">
+                        <h2>Result:</h2>
+                        <button type="button" id="copyResultBtn">Copy Result</button>
+                    </div>
+                    <div id="resultContent">
+                        <p>الرجاء تعبئة النموذج والنقر على "إظهار النتيجة" لرؤية التفاصيل.</p>
+                    </div>
                 </div>
-                <div id="resultContent">
-                    <p>الرجاء تعبئة النموذج والنقر على "إظهار النتيجة" لرؤية التفاصيل.</p>
+
+                <div id="userRequestOutput" class="result-box user-request-box">
+                    <div class="result-header">
+                        <h2>User Request:</h2>
+                        <button type="button" id="copyUserRequestBtn">Copy Request</button>
+                    </div>
+                    <div id="userRequestContent">
+                        <p>سيظهر طلب المستخدم هنا.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -219,15 +241,26 @@
                 <button id="closeWarningModalBtn">موافق</button>
             </div>
         </div>
-    </div> <div id="welcomeModal" class="modal-overlay modal-welcome">
-        <div class="modal-content">
-            <p>How long do you need to hold? (in minutes)</p>
-            <input type="number" id="holdTimeInput" min="1" value="3" placeholder="Enter minutes">
-            <button id="startTimerBtn" disabled>Start</button>
+        
+        <div id="welcomeModal" class="modal-overlay modal-welcome">
+            <div class="modal-content">
+                <p>How long do you need to hold? (in minutes)</p>
+                <input type="number" id="holdTimeInput" min="1" value="3" placeholder="Enter minutes">
+                <button id="startTimerBtn" disabled>Start</button>
+            </div>
+        </div>
+
+        <div id="timerAlertModal" class="modal-overlay modal-timer-alert">
+            <div class="modal-content">
+                <i class="fas fa-exclamation-triangle alert-icon"></i> 
+                <p>انتهى وقت الانتظار! الرجاء اتخاذ الإجراء اللازم.</p>
+                <button id="closeTimerAlertModalBtn">موافق</button>
+            </div>
         </div>
     </div>
-
-    <footer class="footer hidden"> <p>&copy; 2025 LaithDeveloper. All rights reserved.</p>
+    
+    <footer class="footer hidden">
+        <p>&copy; 2025 Laith AL-Arabiat. All rights reserved.</p>
         <div class="social-links">
             <a href="https://www.instagram.com/laithdeveloper/" target="_blank" class="instagram-link">
                 <i class="fab fa-instagram instagram-icon"></i>
@@ -235,8 +268,8 @@
             </a>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script src="script.js"></script>
-</body>
+ <script src ="script.js"></script>
+    
+    </body>
 </html>
