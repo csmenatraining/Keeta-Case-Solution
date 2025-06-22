@@ -1,786 +1,900 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap');
-
-:root {
-    --bg-color: #0d1117;
-    --form-bg: rgba(22, 27, 34, 0.85);
-    --border-color: #2e3b4a;
-    --accent-blue: #00bcd4;
-    --accent-purple: #9c27b0;
-    --text-light: #e0e6ed;
-    --text-dark: #1e2a3a;
-    --glow-light: rgba(0, 220, 255, 0.4);
-    --glow-dark: rgba(156, 39, 176, 0.4);
-    --button-gradient: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
-    --red-highlight: #ff4d4d;
-    --purple-highlight: #ee82ee;
-    --red-glow: rgba(255, 77, 77, 0.6);
-    --purple-glow: rgba(238, 130, 238, 0.6);
-    --copy-button-bg: #4CAF50;
-    --copy-button-hover: #45a049;
-    --toast-bg: #1a1e24;
-    --toast-text: #fff;
-    --toast-success: #28a745;
-    --toast-glow: rgba(0, 220, 255, 0.6);
-    --modal-bg: rgba(22, 27, 34, 0.98);
-    --modal-overlay-bg: rgba(0, 0, 0, 0.8);
-    --modal-border-warning: #ff8c00;
-    --modal-glow-warning: rgba(255, 165, 0, 0.8);
-    --modal-button-bg-warning: #e67e22;
-    --modal-button-hover-warning: #d35400;
-    --modal-border-welcome: #00bcd4;
-    --modal-glow-welcome: rgba(0, 220, 255, 0.8);
-    --modal-button-bg-welcome: var(--accent-blue);
-    --modal-button-hover-welcome: #0097a7;
-    --modal-input-bg: rgba(45, 55, 72, 0.9);
-    --modal-input-border: var(--border-color);
-    --modal-input-text: var(--text-light);
-    --timer-bg: rgba(45, 55, 72, 0.7);
-    --timer-text: var(--accent-blue);
-    --timer-border: var(--border-color);
-    --timer-glow: rgba(0, 220, 255, 0.2);
-    --alert-toast-bg: #4b0000;
-    --alert-toast-text: #ffe0e0;
-    --alert-toast-border: #ff4d4d;
-    --alert-toast-glow: rgba(255, 77, 77, 0.7);
-
-    /* Intro Screen Variables */
-    --intro-bg: #0d1117;
-    --intro-glow: rgba(0, 188, 212, 0.5);
-    --loading-bar-color: var(--accent-blue);
-    --loading-bar-bg: rgba(0, 188, 212, 0.2);
-}
-
-body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-light);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-    flex-direction: column; /* Allows content and footer to stack vertically */
-}
-
-/* Base hidden class for content */
-.hidden {
-    display: none !important;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease-out, visibility 0.5s;
-}
-
-.show-block {
-    display: flex !important; /* or block depending on container */
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-/* Intro Screen Styles */
-#intro-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--intro-bg);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Higher than other elements */
-    opacity: 1; /* Starts visible */
-    visibility: visible;
-    transition: opacity 1s ease-out, visibility 1s; /* Fade out effect */
-}
-
-/* Class to fade out the intro screen */
-#intro-screen.fade-out {
-    opacity: 0;
-    visibility: hidden;
-}
-
-#particles-js {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: var(--bg-color);
-    background-image: url('');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
-    z-index: 0;
-}
-
-/* Intro Logo Container - for the spinning logo during intro */
-#intro-logo-container {
-    position: relative;
-    z-index: 2;
-    margin-bottom: 30px; /* Space for loading bar and text */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 180px; /* Larger for intro */
-    height: 180px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, rgba(0, 188, 212, 0.2), rgba(156, 39, 176, 0.2));
-    box-shadow: 0 0 30px var(--glow-light), 0 0 60px var(--glow-dark);
-    transition: all 0.3s ease;
-    border: 2px solid var(--accent-blue); /* More defined border */
-    overflow: hidden; /* Ensure anything outside the circle is clipped */
-}
-
-.intro-logo-spin { /* This class will be added/removed by JS for animation */
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: contain;
-    display: block;
-    filter: drop-shadow(0 0 10px var(--glow-light));
-    animation: spin 1.5s ease-out forwards; /* Starts spinning immediately with intro */
-}
-
-/* Persistent Logo at the top of the main content */
-#persistent-logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0; /* Padding above and below logo */
-    background-color: var(--form-bg); /* Match form background */
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    width: 100%;
-    max-width: 750px; /* Match container width */
-    border-radius: 12px 12px 0 0; /* Rounded top corners */
-    margin: 40px auto 0 auto; /* Align with container */
-    position: relative; /* For z-index */
-    z-index: 1; /* Above particles */
-    /* This will be shown by JS */
-}
-
-#persistent-logo-container #main-logo {
-    width: 80px; /* Smaller size for persistent logo */
-    height: 80px;
-    border-radius: 50%;
-    object-fit: contain;
-    filter: drop-shadow(0 0 8px var(--glow-light));
-    border: 1px solid var(--accent-blue); /* Optional: subtle border */
-}
-
-
-/* Rotation animation */
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* Loading Bar Styles */
-.loading-bar-container {
-    width: 280px; /* Slightly wider bar */
-    height: 8px;
-    background-color: var(--loading-bar-bg);
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-    margin-bottom: 20px; /* Space below bar */
-}
-
-.loading-bar {
-    width: 0%;
-    height: 100%;
-    background-color: var(--loading-bar-color);
-    border-radius: 5px;
-    animation: load 1.5s linear forwards; /* Matches logo spin duration */
-    box-shadow: 0 0 10px var(--glow-light);
-}
-
-@keyframes load {
-    0% { width: 0%; }
-    100% { width: 100%; }
-}
-
-.intro-text {
-    font-family: 'Roboto', sans-serif;
-    color: var(--text-light);
-    font-size: 1.2em;
-    letter-spacing: 1px;
-    opacity: 0.8;
-    text-shadow: 0 0 5px var(--glow-light);
-}
-
-
-.main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    /* Initially hidden, shown by JS */
-}
-
-.container {
-    background-color: var(--form-bg);
-    background-image: linear-gradient(to bottom right, rgba(0, 188, 212, 0.05), rgba(156, 39, 176, 0.02));
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 40px var(--glow-light), 0 0 80px var(--glow-dark),
-                inset 2px 2px 10px rgba(0, 188, 212, 0.1),
-                inset -2px -2px 10px rgba(156, 39, 176, 0.08),
-                inset 5px 5px 20px rgba(0, 188, 212, 0.05),
-                inset -5px -5px 20px rgba(156, 39, 176, 0.04);
-    padding: 35px;
-    width: 90%;
-    max-width: 750px;
-    margin: 0 auto 40px auto; /* Adjust margin-top to allow persistent logo */
-    position: relative;
-    z-index: 1;
-    backdrop-filter: blur(5px);
-}
-
-h1 {
-    font-family: 'Roboto', sans-serif;
-    color: var(--accent-blue);
-    text-align: center;
-    margin-bottom: 35px;
-    text-shadow: 0 0 15px var(--glow-light);
-    font-size: 2.5em;
-    letter-spacing: 2px;
-}
-
-.form-group {
-    margin-bottom: 22px;
-}
-
-label {
-    display: block;
-    margin-bottom: 10px;
-    color: var(--text-light);
-    font-weight: 600;
-    font-size: 0.9em;
-    letter-spacing: 0.8px;
-    opacity: 0.9;
-    font-family: 'Open Sans', sans-serif;
-}
-
-input[type="text"],
-select {
-    width: calc(100% - 24px);
-    padding: 14px;
-    background-color: rgba(45, 55, 72, 0.7);
-    border: 1px solid var(--border-color);
-    color: white;
-    border-radius: 8px;
-    font-size: 1em;
-    transition: all 0.3s ease;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%2300bcd4" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 20px;
-}
-
-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-input::-webkit-input-placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-input::-moz-placeholder {
-    color: rgba(255, 255, 255, 0.6);
-    opacity: 1;
-}
-input:-ms-input-placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-input::-ms-input-placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-input[type="text"]:focus,
-select:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 15px var(--glow-light);
-    outline: none;
-    background-color: rgba(45, 55, 72, 0.9);
-}
-
-select option {
-    background-color: var(--bg-color);
-    color: white;
-    padding: 8px;
-}
-
-.buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-    gap: 20px;
-}
-
-button {
-    background: var(--button-gradient);
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    flex-grow: 1;
-    max-width: 200px;
-}
-
-button:hover {
-    opacity: 0.9;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 25px var(--glow-light);
-}
-
-button:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-#createNewTicketBtn {
-    background: linear-gradient(45deg, var(--accent-purple), var(--accent-blue));
-}
-
-#createNewTicketBtn:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 25px var(--glow-dark);
-}
-
-.result-box {
-    background-color: rgba(22, 27, 34, 0.9);
-    border: 1px dashed var(--accent-blue);
-    border-radius: 10px;
-    padding: 25px;
-    margin-top: 45px;
-    box-shadow: inset 0 0 20px rgba(0, 220, 255, 0.15);
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.result-box h2 {
-    font-family: 'Roboto', sans-serif;
-    color: var(--accent-blue);
-    margin-top: 0;
-    margin-bottom: 0;
-    text-shadow: 0 0 10px var(--glow-light);
-    font-size: 1.8em;
-}
-
-#copyResultBtn {
-    background-color: var(--copy-button-bg);
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    text-transform: none;
-    letter-spacing: normal;
-    flex-grow: 0;
-    max-width: fit-content;
-}
-
-#copyResultBtn:hover {
-    background-color: var(--copy-button-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-#copyResultBtn:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-#resultContent {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    line-height: 1.8;
-    color: var(--text-light);
-    font-size: 1em;
-    opacity: 0.85;
-}
-
-#resultContent ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-#resultContent li {
-    margin-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 5px;
-}
-#resultContent li:last-child {
-    border-bottom: none;
-}
-
-#resultContent strong {
-    color: var(--accent-blue);
-    margin-right: 5px;
-}
-
-#resultContent p {
-    margin-top: 15px;
-    font-style: italic;
-    color: var(--accent-purple);
-}
-
-.red-highlight {
-    color: var(--red-highlight);
-    text-shadow: 0 0 8px var(--red-glow);
-    font-weight: bold;
-}
-
-.purple-highlight {
-    color: var(--purple-highlight);
-    text-shadow: 0 0 8px var(--purple-glow);
-    font-weight: bold;
-}
-
-#copyToast {
-    visibility: hidden;
-    min-width: 280px;
-    background-color: var(--toast-bg);
-    color: var(--toast-text);
-    text-align: center;
-    border-radius: 5px;
-    padding: 16px;
-    position: fixed;
-    z-index: 10;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 30px;
-    font-size: 17px;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s ease-in-out;
-    box-shadow: 0 0 15px var(--toast-glow), 0 5px 15px rgba(0, 0, 0, 0.5);
-}
-
-#copyToast.show {
-    visibility: visible;
-    opacity: 1;
-}
-
-#alertToast {
-    visibility: hidden;
-    min-width: 320px;
-    background-color: var(--alert-toast-bg);
-    color: var(--alert-toast-text);
-    text-align: right;
-    border-radius: 5px;
-    padding: 16px;
-    position: fixed;
-    z-index: 10;
-    right: 20px;
-    top: 20px;
-    font-size: 17px;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s ease-in-out;
-    box-shadow: 0 0 15px var(--alert-toast-glow), 0 5px 15px rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--alert-toast-border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    direction: rtl;
-}
-
-#alertToast.show {
-    visibility: visible;
-    opacity: 1;
-    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-    animation-duration: 20s;
-    animation-iteration-count: 1;
-}
-
-@keyframes shake {
-    10%, 90% {
-        transform: translate3d(-1px, 0, 0);
-    }
-    20%, 80% {
-        transform: translate3d(2px, 0, 0);
-    }
-    30%, 50%, 70% {
-        transform: translate3d(-4px, 0, 0);
-    }
-    40%, 60% {
-        transform: translate3d(4px, 0, 0);
-    }
-}
-
-
-#alertToast svg {
-    fill: var(--alert-toast-text);
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-}
-
-.modal-overlay {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: var(--modal-overlay-bg);
-    backdrop-filter: blur(3px);
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-}
-
-.modal-overlay.show-modal {
-    display: flex;
-    opacity: 1;
-}
-
-.modal-content {
-    background-color: var(--modal-bg);
-    margin: auto;
-    padding: 30px;
-    border: 2px solid;
-    border-radius: 15px;
-    width: 80%;
-    max-width: 450px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 0 25px, 0 10px 30px rgba(0, 0, 0, 0.6);
-    transform: scale(0.9);
-    transition: transform 0.3s ease-out;
-}
-
-.modal-overlay.show-modal .modal-content {
-    transform: scale(1);
-}
-
-.modal-content p {
-    color: var(--text-light);
-    font-size: 1.1em;
-    margin-bottom: 25px;
-    line-height: 1.6;
-}
-
-.modal-content button {
-    color: white;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    text-transform: uppercase;
-}
-
-.modal-warning .modal-content {
-    border-color: var(--modal-border-warning);
-    box-shadow: 0 0 25px var(--modal-glow-warning), 0 10px 30px rgba(0, 0, 0, 0.6);
-}
-.modal-warning .modal-content p {
-    text-shadow: 0 0 5px rgba(255, 165, 0, 0.3);
-}
-.modal-warning .modal-content button {
-    background-color: var(--modal-button-bg-warning);
-}
-.modal-warning .modal-content button:hover {
-    background-color: var(--modal-button-hover-warning);
-}
-
-.modal-welcome .modal-content {
-    border-color: var(--modal-border-welcome);
-    box-shadow: 0 0 25px var(--modal-glow-welcome), 0 10px 30px rgba(0, 0, 0, 0.6);
-}
-.modal-welcome .modal-content p {
-    text-shadow: 0 0 5px rgba(0, 220, 255, 0.3);
-}
-.modal-welcome .modal-content button {
-    background-color: var(--modal-button-bg-welcome);
-}
-.modal-welcome .modal-content button:hover {
-    background-color: #0097a7;
-}
-#holdTimeInput {
-    width: 80%;
-    padding: 12px;
-    margin: 15px auto 25px auto;
-    background-color: var(--modal-input-bg);
-    border: 1px solid var(--modal-input-border);
-    color: var(--modal-input-text);
-    border-radius: 8px;
-    font-size: 1.1em;
-    text-align: center;
-    -moz-appearance: textfield;
-}
-#holdTimeInput::-webkit-outer-spin-button,
-#holdTimeInput::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-#timerDisplay {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background-color: var(--timer-bg);
-    border: 1px solid var(--timer-border);
-    border-radius: 8px;
-    padding: 10px 15px;
-    color: var(--timer-text);
-    font-size: 1.5em;
-    font-weight: bold;
-    box-shadow: 0 0 10px var(--timer-glow), 0 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 50;
-    display: none;
-    min-width: 120px;
-    text-align: center;
-}
-
-#timerDisplay.active {
-    display: block;
-}
-
-.footer {
-    margin-top: 50px;
-    padding: 25px 0;
-    text-align: center;
-    background-color: var(--form-bg);
-    border-top: 1px solid var(--border-color);
-    border-radius: 0 0 12px 12px; /* Rounded bottom corners to match container */
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 40px var(--glow-light);
-    backdrop-filter: blur(5px);
-    max-width: 750px; /* Match container width */
-    margin-bottom: 40px; /* Space below footer */
-}
-
-.footer p {
-    color: var(--text-light);
-    font-size: 0.9em;
-    margin-bottom: 15px;
-    opacity: 0.7;
-    letter-spacing: 0.5px;
-}
-
-.footer .social-links {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
-}
-
-.instagram-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: var(--accent-blue);
-    font-weight: 600;
-    font-size: 1.1em;
-    padding: 10px 20px;
-    border-radius: 25px;
-    background: rgba(0, 188, 212, 0.1);
-    border: 1px solid var(--accent-blue);
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
-}
-
-.instagram-link:hover {
-    color: white;
-    background: var(--button-gradient);
-    border-color: transparent;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5), 0 0 25px var(--glow-light), 0 0 40px var(--glow-dark);
-}
-
-.instagram-link .instagram-icon {
-    font-size: 28px;
-    color: var(--accent-blue);
-    transition: color 0.3s ease-in-out;
-}
-
-.instagram-link:hover .instagram-icon {
-    color: white;
-}
-
-@media print {
-    body {
-        background-color: #fff;
-        color: #000;
-        display: block;
-        margin: 0;
-        padding: 0;
-    }
-    #particles-js, .buttons, .main-content, .modal-overlay, #copyToast, #timerDisplay, #alertToast, .footer, #intro-screen, #persistent-logo-container {
-        box-shadow: none;
-        border: none;
-        background-color: transparent;
-        backdrop-filter: none;
-        display: none;
-    }
-    h1, .result-box h2 {
-        color: #000;
-        text-shadow: none;
-    }
-    input[type="text"],
-    select {
-        border: 1px solid #ccc;
-        background-color: #f0f0f0;
-        color: #000;
-    }
-    .container {
-        width: auto;
-        max-width: none;
-        margin: 20px;
-        padding: 0;
-    }
-    .form-group label {
-        color: #333;
-    }
-    .result-box {
-        border: 1px solid #ccc;
-        box-shadow: none;
-        background-color: #f9f9f9;
-        color: #000;
-    }
-    #resultContent {
-        color: #000;
-    }
-    #showResultBtn, #createNewTicketBtn, #copyResultBtn {
-        display: none;
-    }
-}
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-color: #0d1117;
+            --form-bg: rgba(22, 27, 34, 0.85);
+            --border-color: #2e3b4a;
+            --accent-blue: #00bcd4;
+            --accent-purple: #9c27b0;
+            --text-light: #e0e6ed;
+            --text-dark: #1e2a3a;
+            --glow-light: rgba(0, 220, 255, 0.4);
+            --glow-dark: rgba(156, 39, 176, 0.4);
+            --button-gradient: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            --red-highlight: #ff4d4d;
+            --purple-highlight: #ee82ee;
+            --red-glow: rgba(255, 77, 77, 0.6);
+            --purple-glow: rgba(238, 130, 238, 0.6);
+            --copy-button-bg: #4CAF50;
+            --copy-button-hover: #45a049;
+            --toast-bg: #1a1e24;
+            --toast-text: #fff;
+            --toast-success: #28a745;
+            --toast-glow: rgba(0, 220, 255, 0.6);
+            --modal-bg: rgba(22, 27, 34, 0.98);
+            --modal-overlay-bg: rgba(0, 0, 0, 0.8);
+            --modal-border-warning: #ff8c00;
+            --modal-glow-warning: rgba(255, 165, 0, 0.8);
+            --modal-button-bg-warning: #e67e22;
+            --modal-button-hover-warning: #d35400;
+            --modal-border-welcome: #00bcd4;
+            --modal-glow-welcome: rgba(0, 220, 255, 0.8);
+            --modal-button-bg-welcome: var(--accent-blue);
+            --modal-button-hover-welcome: #0097a7;
+            --modal-input-bg: rgba(45, 55, 72, 0.9);
+            --modal-input-border: var(--border-color);
+            --modal-input-text: var(--text-light);
+            --timer-bg: rgba(45, 55, 72, 0.7);
+            --timer-text: var(--accent-blue);
+            --timer-border: var(--border-color);
+            --timer-glow: rgba(0, 220, 255, 0.2);
+            --alert-toast-bg: #4b0000;
+            --alert-toast-text: #ffe0e0;
+            --alert-toast-border: #ff4d4d;
+            --alert-toast-glow: rgba(255, 77, 77, 0.7);
+
+            /* Intro Screen Variables */
+            --intro-bg: #0d1117;
+            --intro-glow: rgba(0, 188, 212, 0.5);
+            --loading-bar-color: var(--accent-blue);
+            --loading-bar-bg: rgba(0, 188, 212, 0.2);
+
+            /* New Red Alert Modal Variables */
+            --modal-red-bg: #4b0000; /* Darker red for background */
+            --modal-red-border: #ff4d4d; /* Bright red for border */
+            --modal-red-glow: rgba(255, 77, 77, 0.8); /* Strong red glow */
+            --modal-red-button-bg: #cc0000; /* Red button */
+            --modal-red-button-hover: #a30000; /* Darker red button on hover */
+            --modal-red-text: #ffe0e0; /* Light red/white text for contrast */
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            flex-direction: column; /* Allows content and footer to stack vertically */
+        }
+
+        /* Base hidden class for content */
+        .hidden {
+            display: none !important;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
+        }
+
+        .show-block {
+            display: flex !important; /* or block depending on container */
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Intro Screen Styles */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--intro-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Higher than other elements */
+            opacity: 1; /* Starts visible */
+            visibility: visible;
+            transition: opacity 1s ease-out, visibility 1s; /* Fade out effect */
+        }
+
+        /* Class to fade out the intro screen */
+        #intro-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            background-image: url('');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 50% 50%;
+            z-index: 0;
+        }
+
+        /* Intro Logo Container - for the spinning logo during intro */
+        #intro-logo-container {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 30px; /* Space for loading bar and text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 180px; /* Larger for intro */
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(0, 188, 212, 0.2), rgba(156, 39, 176, 0.2));
+            box-shadow: 0 0 30px var(--glow-light), 0 0 60px var(--glow-dark);
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent-blue); /* More defined border */
+            overflow: hidden; /* Ensure anything outside the circle is clipped */
+        }
+
+        .intro-logo-spin { /* This class will be added/removed by JS for animation */
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: contain;
+            display: block;
+            filter: drop-shadow(0 0 10px var(--glow-light));
+            animation: spin 1.5s ease-out forwards; /* Starts spinning immediately with intro */
+        }
+
+        /* Persistent Logo at the top of the main content */
+        #persistent-logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0; /* Padding above and below logo */
+            background-color: var(--form-bg); /* Match form background */
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 750px; /* Match container width */
+            border-radius: 12px 12px 0 0; /* Rounded top corners */
+            margin: 40px auto 0 auto; /* Align with container */
+            position: relative; /* For z-index */
+            z-index: 1; /* Above particles */
+            /* This will be shown by JS */
+        }
+
+        #persistent-logo-container #main-logo {
+            width: 80px; /* Smaller size for persistent logo */
+            height: 80px;
+            border-radius: 50%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px var(--glow-light));
+            border: 1px solid var(--accent-blue); /* Optional: subtle border */
+        }
+
+
+        /* Rotation animation */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Loading Bar Styles */
+        .loading-bar-container {
+            width: 280px; /* Slightly wider bar */
+            height: 8px;
+            background-color: var(--loading-bar-bg);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px; /* Space below bar */
+        }
+
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--loading-bar-color);
+            border-radius: 5px;
+            animation: load 1.5s linear forwards; /* Matches logo spin duration */
+            box-shadow: 0 0 10px var(--glow-light);
+        }
+
+        @keyframes load {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .intro-text {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-light);
+            font-size: 1.2em;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            text-shadow: 0 0 5px var(--glow-light);
+        }
+
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            /* Initially hidden, shown by JS */
+        }
+
+        .container {
+            background-color: var(--form-bg);
+            background-image: linear-gradient(to bottom right, rgba(0, 188, 212, 0.05), rgba(156, 39, 176, 0.02));
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 40px var(--glow-light), 0 0 80px var(--glow-dark),
+                        inset 2px 2px 10px rgba(0, 188, 212, 0.1),
+                        inset -2px -2px 10px rgba(156, 39, 176, 0.08),
+                        inset 5px 5px 20px rgba(0, 188, 212, 0.05),
+                        inset -5px -5px 20px rgba(156, 39, 176, 0.04);
+            padding: 35px;
+            width: 90%;
+            max-width: 750px;
+            margin: 0 auto 40px auto; /* Adjust margin-top to allow persistent logo */
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            color: var(--accent-blue);
+            text-align: center;
+            margin-bottom: 35px;
+            text-shadow: 0 0 15px var(--glow-light);
+            font-size: 2.5em;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9em;
+            letter-spacing: 0.8px;
+            opacity: 0.9;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        input[type="text"],
+        select {
+            width: calc(100% - 24px);
+            padding: 14px;
+            background-color: rgba(45, 55, 72, 0.7);
+            border: 1px solid var(--border-color);
+            color: white;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%2300bcd4" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        input::-webkit-input-placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        input::-moz-placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 1;
+        }
+        input:-ms-input-placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        input::-ms-input-placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px var(--glow-light);
+            outline: none;
+            background-color: rgba(45, 55, 72, 0.9);
+        }
+
+        select option {
+            background-color: var(--bg-color);
+            color: white;
+            padding: 8px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 20px;
+        }
+
+        button {
+            background: var(--button-gradient);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            flex-grow: 1;
+            max-width: 200px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 25px var(--glow-light);
+        }
+
+        button:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #createNewTicketBtn {
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-blue));
+        }
+
+        #createNewTicketBtn:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 25px var(--glow-dark);
+        }
+
+        /* Styles for the new "Start Hold Timer" button */
+        .action-button {
+            background: linear-gradient(45deg, #007bff, #0056b3); /* A slightly different gradient for distinction */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            display: inline-flex; /* To align icon and text */
+            align-items: center;
+            gap: 10px; /* Space between icon and text */
+        }
+
+        .action-button:hover {
+            opacity: 0.9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 123, 255, 0.5); /* Blue glow */
+        }
+
+        .action-button:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* New styles for the results container and individual boxes */
+        .results-container {
+            display: flex;
+            gap: 20px; /* Space between the two boxes */
+            margin-top: 45px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            justify-content: center; /* Center boxes when they wrap */
+        }
+
+        .result-box {
+            background-color: rgba(22, 27, 34, 0.9);
+            border: 1px dashed var(--accent-blue);
+            border-radius: 10px;
+            padding: 25px;
+            /* margin-top: 45px; Removed from here, moved to .results-container */
+            box-shadow: inset 0 0 20px rgba(0, 220, 255, 0.15);
+            max-height: 400px;
+            overflow-y: auto;
+            flex: 1; /* Allows boxes to grow and shrink */
+            min-width: 300px; /* Minimum width before wrapping */
+            max-width: 48%; /* To make them roughly half width on wider screens */
+        }
+
+        .user-request-box {
+            border: 1px dashed var(--accent-purple); /* Different border color for distinction */
+            box-shadow: inset 0 0 20px rgba(156, 39, 176, 0.15); /* Different glow */
+        }
+
+        .user-request-box h2 {
+            color: var(--accent-purple); /* Adjust if you want a different color for this title */
+            text-shadow: 0 0 10px var(--glow-dark);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .result-box h2 {
+            font-family: 'Roboto', sans-serif;
+            color: var(--accent-blue);
+            margin-top: 0;
+            margin-bottom: 0;
+            text-shadow: 0 0 10px var(--glow-light);
+            font-size: 1.8em;
+        }
+
+        #copyResultBtn, #copyUserRequestBtn {
+            background-color: var(--copy-button-bg);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-transform: none;
+            letter-spacing: normal;
+            flex-grow: 0;
+            max-width: fit-content;
+        }
+
+        #copyResultBtn:hover, #copyUserRequestBtn:hover {
+            background-color: var(--copy-button-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #copyResultBtn:active, #copyUserRequestBtn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        #resultContent, #userRequestContent {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.8;
+            color: var(--text-light);
+            font-size: 1em;
+            opacity: 0.85;
+        }
+
+        #resultContent ul, #userRequestContent ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #resultContent li, #userRequestContent li {
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 5px;
+        }
+        #resultContent li:last-child, #userRequestContent li:last-child {
+            border-bottom: none;
+        }
+
+        #resultContent strong, #userRequestContent strong {
+            color: var(--accent-blue);
+            margin-right: 5px;
+        }
+        .user-request-box strong { /* Override for user request box if needed */
+            color: var(--accent-purple);
+        }
+
+
+        #resultContent p, #userRequestContent p {
+            margin-top: 15px;
+            font-style: italic;
+            color: var(--accent-purple);
+        }
+
+        .red-highlight {
+            color: var(--red-highlight);
+            text-shadow: 0 0 8px var(--red-glow);
+            font-weight: bold;
+        }
+
+        .purple-highlight {
+            color: var(--purple-highlight);
+            text-shadow: 0 0 8px var(--purple-glow);
+            font-weight: bold;
+        }
+
+        #copyToast {
+            visibility: hidden;
+            min-width: 280px;
+            background-color: var(--toast-bg);
+            color: var(--toast-text);
+            text-align: center;
+            border-radius: 5px;
+            padding: 16px;
+            position: fixed;
+            z-index: 10;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 30px;
+            font-size: 17px;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease-in-out;
+            box-shadow: 0 0 15px var(--toast-glow), 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        #copyToast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* #alertToast - هذا التوست لم يعد يُستخدم لتنبيه الوقت ولكن بقي الكود الخاص به */
+        #alertToast {
+            visibility: hidden;
+            min-width: 320px;
+            background-color: var(--alert-toast-bg);
+            color: var(--alert-toast-text);
+            text-align: right;
+            border-radius: 5px;
+            padding: 16px;
+            position: fixed;
+            z-index: 10;
+            right: 20px;
+            top: 20px;
+            font-size: 17px;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease-in-out;
+            box-shadow: 0 0 15px var(--alert-toast-glow), 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--alert-toast-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            direction: rtl;
+        }
+
+        #alertToast.show {
+            visibility: visible;
+            opacity: 1;
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            animation-duration: 20s;
+            animation-iteration-count: 1;
+        }
+
+        @keyframes shake {
+            10%, 90% {
+                transform: translate3d(-1px, 0, 0);
+            }
+            20%, 80% {
+                transform: translate3d(2px, 0, 0);
+            }
+            30%, 50%, 70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+            40%, 60% {
+                transform: translate3d(4px, 0, 0);
+            }
+        }
+
+
+        #alertToast svg {
+            fill: var(--alert-toast-text);
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: var(--modal-overlay-bg);
+            backdrop-filter: blur(3px);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+        }
+
+        .modal-overlay.show-modal {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--modal-bg);
+            margin: auto;
+            padding: 30px;
+            border: 2px solid;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 25px, 0 10px 30px rgba(0, 0, 0, 0.6);
+            transform: scale(0.9);
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal-overlay.show-modal .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content p {
+            color: var(--text-light);
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modal-content button {
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            text-transform: uppercase;
+        }
+
+        .modal-warning .modal-content {
+            border-color: var(--modal-border-warning);
+            box-shadow: 0 0 25px var(--modal-glow-warning), 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+        .modal-warning .modal-content p {
+            text-shadow: 0 0 5px rgba(255, 165, 0, 0.3);
+        }
+        .modal-warning .modal-content button {
+            background-color: var(--modal-button-bg-warning);
+        }
+        .modal-warning .modal-content button:hover {
+            background-color: var(--modal-button-hover-warning);
+        }
+
+        .modal-welcome .modal-content {
+            border-color: var(--modal-border-welcome);
+            box-shadow: 0 0 25px var(--modal-glow-welcome), 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+        .modal-welcome .modal-content p {
+            text-shadow: 0 0 5px rgba(0, 220, 255, 0.3);
+        }
+        .modal-welcome .modal-content button {
+            background-color: var(--modal-button-bg-welcome);
+        }
+        .modal-welcome .modal-content button:hover {
+            background-color: #0097a7;
+        }
+        #holdTimeInput {
+            width: 80%;
+            padding: 12px;
+            margin: 15px auto 25px auto;
+            background-color: var(--modal-input-bg);
+            border: 1px solid var(--modal-input-border);
+            color: var(--modal-input-text);
+            border-radius: 8px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        #timerDisplay {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--timer-bg);
+            border: 1px solid var(--timer-border);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: var(--timer-text);
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--timer-glow), 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 50;
+            display: none;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        #timerDisplay.active {
+            display: block;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 25px 0;
+            text-align: center;
+            background-color: var(--form-bg);
+            border-top: 1px solid var(--border-color);
+            border-radius: 0 0 12px 12px; /* Rounded bottom corners to match container */
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 40px var(--glow-light);
+            backdrop-filter: blur(5px);
+            max-width: 750px; /* Match container width */
+            margin-bottom: 40px; /* Space below footer */
+        }
+
+        .footer p {
+            color: var(--text-light);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
+        }
+
+        .footer .social-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .instagram-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(0, 188, 212, 0.1);
+            border: 1px solid var(--accent-blue);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+        }
+
+        .instagram-link:hover {
+            color: white;
+            background: var(--button-gradient);
+            border-color: transparent;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5), 0 0 25px var(--glow-light), 0 0 40px var(--glow-dark);
+        }
+
+        .instagram-link .instagram-icon {
+            font-size: 28px;
+            color: var(--accent-blue);
+            transition: color 0.3s ease-in-out;
+        }
+
+        .instagram-link:hover .instagram-icon {
+            color: white;
+        }
+
+        /* New styles for the red timer alert modal */
+        .modal-timer-alert .modal-content {
+            background-color: var(--modal-red-bg);
+            border-color: var(--modal-red-border);
+            box-shadow: 0 0 25px var(--modal-red-glow), 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-timer-alert .modal-content p {
+            color: var(--modal-red-text); /* Light text for contrast */
+            text-shadow: 0 0 8px rgba(255, 77, 77, 0.5); /* Red text glow */
+            font-size: 1.2em; /* Make text slightly larger */
+            font-weight: bold;
+        }
+
+        .modal-timer-alert .modal-content button {
+            background-color: var(--modal-red-button-bg);
+            color: var(--modal-red-text); /* Light text for button */
+            font-weight: bold;
+        }
+
+        .modal-timer-alert .modal-content button:hover {
+            background-color: var(--modal-red-button-hover);
+        }
+
+        .modal-timer-alert .modal-content .alert-icon {
+            font-size: 3.5em; /* Large icon */
+            color: var(--modal-red-border); /* Bright red icon color */
+            margin-bottom: 20px; /* Space between icon and text */
+            text-shadow: 0 0 15px var(--modal-red-glow); /* Strong glow for icon */
+            animation: pulse-red 1.5s infinite alternate; /* Pulsing effect */
+        }
+
+        @keyframes pulse-red {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: scale(1.05);
+                opacity: 0.9;
+                text-shadow: 0 0 20px var(--modal-red-glow);
+            }
+        }
+
+
+        @media print {
+            body {
+                background-color: #fff;
+                color: #000;
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+            #particles-js, .buttons, .main-content, .modal-overlay, #copyToast, #timerDisplay, #alertToast, .footer, #intro-screen, #persistent-logo-container {
+                box-shadow: none;
+                border: none;
+                background-color: transparent;
+                backdrop-filter: none;
+                display: none;
+            }
+            h1, .result-box h2 {
+                color: #000;
+                text-shadow: none;
+            }
+            input[type="text"],
+            select {
+                border: 1px solid #ccc;
+                background-color: #f0f0f0;
+                color: #000;
+            }
+            .container {
+                width: auto;
+                max-width: none;
+                margin: 20px;
+                padding: 0;
+            }
+            .form-group label {
+                color: #333;
+            }
+            .results-container {
+                display: block; /* Stack boxes vertically for print */
+                gap: 0;
+                margin-top: 0;
+            }
+            .result-box, .user-request-box {
+                border: 1px solid #ccc;
+                box-shadow: none;
+                background-color: #f9f9f9;
+                color: #000;
+                max-width: 100%; /* Full width for print */
+                margin-bottom: 20px; /* Space between stacked boxes */
+            }
+            #resultContent, #userRequestContent {
+                color: #000;
+            }
+            #showResultBtn, #createNewTicketBtn, #copyResultBtn, #copyUserRequestBtn {
+                display: none;
+            }
+        }
+    
